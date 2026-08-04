@@ -1,0 +1,60 @@
+Table users {
+  id integer [primary key]
+  name varchar
+  email varchar [unique]
+  password_hash varchar
+  role varchar
+  created_at timestamp
+}
+
+Table songs {
+  id integer [primary key]
+  title varchar
+  artist varchar
+  genre varchar
+  duration integer
+  danceability float
+  energy float
+  valence float
+  tempo float
+  acousticness float
+  cover_url varchar
+}
+
+Table playlists {
+  id integer [primary key]
+  user_id integer
+  name varchar
+  created_at timestamp
+}
+
+Table playlist_songs {
+  id integer [primary key]
+  playlist_id integer
+  song_id integer
+  added_at timestamp
+}
+
+Table listening_history {
+  id integer [primary key]
+  user_id integer
+  song_id integer
+  played_at timestamp
+}
+
+Table recommendations {
+  id integer [primary key]
+  user_id integer
+  song_id integer
+  score float
+  reason text
+  generated_at timestamp
+}
+
+Ref: playlists.user_id > users.id
+Ref: playlist_songs.playlist_id > playlists.id
+Ref: playlist_songs.song_id > songs.id
+Ref: listening_history.user_id > users.id
+Ref: listening_history.song_id > songs.id
+Ref: recommendations.user_id > users.id
+Ref: recommendations.song_id > songs.id
