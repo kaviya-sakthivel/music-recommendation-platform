@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.api import auth
+from app.api import auth, songs
 from app.core.database import Base, engine
 from app.models import models
 
@@ -17,6 +17,7 @@ app.add_middleware(
 )
 
 app.include_router(auth.router)
+app.include_router(songs.router)
 
 
 @app.get("/api/health")

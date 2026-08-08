@@ -30,6 +30,13 @@ class SongOut(BaseModel):
         from_attributes = True
 
 
+class SongCreate(BaseModel):
+    title: str
+    artist: str
+    genre: Optional[str] = None
+    duration: Optional[int] = None
+
+
 class PlaylistCreate(BaseModel):
     name: str
 
