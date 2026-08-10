@@ -32,7 +32,7 @@ class Song(Base):
     tempo = Column(Float)
     acousticness = Column(Float)
     cover_url = Column(String(500))
-
+    audio_url = Column(String(500))
 
 class Playlist(Base):
     __tablename__ = "playlists"

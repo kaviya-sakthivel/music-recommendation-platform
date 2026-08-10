@@ -25,7 +25,7 @@ class SongOut(BaseModel):
     artist: str
     genre: Optional[str] = None
     duration: Optional[int] = None
-
+    audio_url: Optional[str] = None
     class Config:
         from_attributes = True
 
