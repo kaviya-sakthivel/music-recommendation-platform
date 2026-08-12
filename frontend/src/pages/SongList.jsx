@@ -8,6 +8,7 @@ export default function SongList() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [playingId, setPlayingId] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
   const audioRef = useRef(null);
 
   useEffect(() => {
@@ -55,6 +56,15 @@ export default function SongList() {
     newAudio.onended = () => setPlayingId(null);
   };
 
+  const filteredSongs = songs.filter((song) => {
+    const term = searchTerm.toLowerCase();
+    return (
+      song.title.toLowerCase().includes(term) ||
+      song.artist.toLowerCase().includes(term) ||
+      (song.genre && song.genre.toLowerCase().includes(term))
+    );
+  });
+
   return (
     <div className="min-h-screen bg-gray-100 p-8">
       <div className="max-w-3xl mx-auto">
@@ -68,11 +78,21 @@ export default function SongList() {
           </button>
         </div>
 
+        <div className="mb-6">
+          <input
+            type="text"
+            placeholder="Search by title, artist, or genre..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+          />
+        </div>
+
         {loading && <p className="text-gray-500">Loading songs...</p>}
         {error && <p className="text-red-500">{error}</p>}
 
         <div className="space-y-3">
-          {songs.map((song) => (
+          {filteredSongs.map((song) => (
             <div
               key={song.id}
               className="bg-white p-4 rounded-lg shadow-sm flex justify-between items-center hover:shadow-md transition"
@@ -100,8 +120,10 @@ export default function SongList() {
           ))}
         </div>
 
-        {!loading && songs.length === 0 && !error && (
-          <p className="text-gray-500 text-center mt-10">No songs found.</p>
+        {!loading && filteredSongs.length === 0 && !error && (
+          <p className="text-gray-500 text-center mt-10">
+            {searchTerm ? "No songs match your search." : "No songs found."}
+          </p>
         )}
       </div>
     </div>
